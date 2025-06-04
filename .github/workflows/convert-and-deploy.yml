@@ -12,14 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install iconv (via GNU libc)
-        run: sudo apt-get update && sudo apt-get install -y libc-bin
+      - name: Install uconv (from ICU)
+        run: sudo apt-get update && sudo apt-get install -y icu-devtools
 
       - name: Convert HTML files from Shift_JIS to UTF-8
         run: |
           mkdir output
           for file in *.htm*; do
-            iconv -f SHIFT_JIS -t UTF-8 "$file" -o "output/$file"
+            uconv -f SHIFT_JIS -t UTF-8 "$file" > "output/$file"
             sed -i 's/Shift_JIS/UTF-8/g' "output/$file"
           done
 
