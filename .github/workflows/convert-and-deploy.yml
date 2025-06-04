@@ -1,4 +1,4 @@
-name: Convert Shift_JIS to UTF-8 and Deploy to GitHub Pages
+name: Deploy UTF-8 HTML to GitHub Pages
 
 on:
   push:
@@ -6,25 +6,15 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install uconv (from ICU)
-        run: sudo apt-get update && sudo apt-get install -y icu-devtools
-
-      - name: Convert HTML files from Shift_JIS to UTF-8
-        run: |
-          mkdir output
-          for file in *.htm*; do
-            uconv -f SHIFT_JIS -t UTF-8 "$file" > "output/$file"
-            sed -i 's/Shift_JIS/UTF-8/g' "output/$file"
-          done
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./output
+
