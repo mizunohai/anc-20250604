@@ -12,6 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install iconv (via GNU libc)
+        run: sudo apt-get update && sudo apt-get install -y libc-bin
+
       - name: Convert HTML files from Shift_JIS to UTF-8
         run: |
           mkdir output
